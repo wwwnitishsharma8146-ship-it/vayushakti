@@ -1,0 +1,93 @@
+╔════════════════════════════════════════════════════════╗
+║  PUSH TO GITHUB - QUICK COMMANDS                      ║
+╚════════════════════════════════════════════════════════╝
+
+Repository: https://github.com/vishalpaliwal79/KrishiShakti
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPTION 1: Automated Script (Recommended)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+bash push_to_github.sh
+
+This will:
+✓ Show you what changed
+✓ Stage all files
+✓ Commit with good message
+✓ Push to GitHub
+✓ Verify success
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPTION 2: Manual Commands (3 steps)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Step 1: Stage all changes
+git add .
+
+Step 2: Commit with message
+git commit -m "Fix: Dashboard quick stats, image upload API, and Blynk integration - All features working"
+
+Step 3: Push to GitHub
+git push origin main
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPTION 3: One-Liner (Fastest)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+git add . && git commit -m "Fix: Dashboard, image upload, Blynk" && git push origin main
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+WHAT'S BEING UPDATED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Core Fixes (6 files):
+✓ app.py - Image upload fix, port 5000
+✓ public/dashboard.js - Quick stats sync
+✓ public/dashboard.html - Cache v4
+✓ public/analytics.html - Error handling
+✓ blynk_bridge.py - Uppercase pins
+✓ start_blynk_bridge.sh - Python path
+
+New Files (17+ files):
+✓ Test utilities
+✓ Debug pages
+✓ Documentation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IF YOU GET ERRORS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Error: "Please tell me who you are"
+→ git config --global user.email "vishalpaliwal79@gmail.com"
+→ git config --global user.name "Vishal Paliwal"
+
+Error: "Authentication failed"
+→ Use Personal Access Token instead of password
+→ Generate at: GitHub → Settings → Developer settings → Tokens
+
+Error: "Updates were rejected"
+→ git pull origin main --rebase
+→ git push origin main
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERIFY AFTER PUSH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Go to: https://github.com/vishalpaliwal79/KrishiShakti
+2. Check latest commit appears
+3. Verify files are updated
+4. Check timestamps
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STATUS: ✅ Ready to Push!
+
+Just copy and paste one of the commands above.
+
+For detailed help, see: GIT-UPDATE-GUIDE.md

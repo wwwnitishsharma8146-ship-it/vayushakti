@@ -18,11 +18,7 @@
 - **TDS Sensor**: Water quality measurement (100-150 ppm)
 
 ### 🤖 AI-Powered Features
-- **Crop Disease Detection**: Upload crop images for AI analysis (38 disease classes supported)
-  - Real-time disease identification using TensorFlow/Keras
-  - Confidence scores and detailed recommendations
-  - Treatment schedules and preventive measures
-  - Supports 10+ crop types (Tomato, Potato, Apple, Corn, etc.)
+- **Crop Disease Detection**: Upload crop images for AI analysis
 - **Smart Advisory System**: AI-driven irrigation, fertilizer, and pest control recommendations
 - **Multi-Language Chatbot**: Get farming advice in English, Hindi (हिंदी), and Punjabi (ਪੰਜਾਬੀ)
 - **Predictive Analytics**: Weather-based farming suggestions
@@ -198,9 +194,3 @@ For support, email your-email@example.com or open an issue on GitHub.
 **Made with ❤️ for farmers and agriculture**
 
 **कृषि शक्ति - Agricultural Power** 🌾
-# krishishakti
-# KrishiShakti
-# KrishiShakti
-# KrishiShakti_local
-# krisi_aman
-# krisi_aman

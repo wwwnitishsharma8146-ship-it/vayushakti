@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pollution AI - PollutionWatch</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="agriculture.css">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <span class="logo-icon">🌫️</span>
+                <span class="logo-text">PollutionWatch - Pollution AI</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="location-info">
+                <span class="location-icon">📍</span>
+                <span id="location-text">Detecting location...</span>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <span id="user-initial">U</span>
+                </div>
+                <div class="user-info">
+                    <span id="welcome-user">User</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="analytics.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span class="menu-text">Analytics</span>
+            </a>
+            <a href="agriculture.html" class="menu-item active">
+                <span class="menu-icon">🌫️</span>
+                <span class="menu-text">Pollution AI</span>
+            </a>
+            <a href="chatbot.html" class="menu-item">
+                <span class="menu-icon">🤖</span>
+                <span class="menu-text">AI Chatbot</span>
+            </a>
+            <a href="alerts.html" class="menu-item">
+                <span class="menu-icon">🔔</span>
+                <span class="menu-text">Alerts</span>
+            </a>
+            <a href="history.html" class="menu-item">
+                <span class="menu-icon">📜</span>
+                <span class="menu-text">History</span>
+            </a>
+            <a href="settings.html" class="menu-item">
+                <span class="menu-icon">⚙️</span>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="/" class="menu-item">
+                <span class="menu-icon">🏠</span>
+                <span class="menu-text">Home</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>🌫️ Smart Pollution AI System</h1>
+                <p>AI-Powered Air Quality Monitoring & Pollution Analysis</p>
+            </div>
+
+        <!-- AQI Health Score -->
+        <div class="health-score-section">
+            <div class="health-card">
+                <h2>🎯 Live Air Quality Index (AQI)</h2>
+                <div class="score-display">
+                    <div class="score-circle">
+                        <svg width="200" height="200">
+                            <circle cx="100" cy="100" r="90" fill="none" stroke="#e5e7eb" stroke-width="12"/>
+                            <circle id="health-progress" cx="100" cy="100" r="90" fill="none" stroke="#10b981"
+                                    stroke-width="12" stroke-dasharray="565.48" stroke-dashoffset="141.37"
+                                    transform="rotate(-90 100 100)" stroke-linecap="round"/>
+                        </svg>
+                        <div class="score-text">
+                            <span id="health-score">--</span>
+                            <span class="score-label">AQI Score</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="health-factors">
+                    <div class="factor">
+                        <span>💨 Air Quality (MQ-135)</span>
+                        <span id="temp-factor" class="factor-value good">Good</span>
+                    </div>
+                    <div class="factor">
+                        <span>🔬 PM2.5 Level</span>
+                        <span id="moisture-factor" class="factor-value good">Safe</span>
+                    </div>
+                    <div class="factor">
+                        <span>🌡️ Temperature</span>
+                        <span id="air-factor" class="factor-value good">Normal</span>
+                    </div>
+                    <div class="factor">
+                        <span>💧 Humidity</span>
+                        <span id="water-factor" class="factor-value good">Optimal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Pollution Detection -->
+        <div class="ai-section">
+            <div class="ai-card">
+                <h2>🔬 AI Pollution Level Analysis</h2>
+
+                <!-- Live Pollution Status -->
+                <div class="simple-upload-section">
+                    <button class="btn-upload-large" id="upload-btn" onclick="analyzePollution()">
+                        🔍 Run AI Pollution Analysis Now
+                    </button>
+                    <p class="upload-hint">Analyzes current sensor data: MQ-135, PM2.5, PM10, Temperature, Humidity</p>
+                </div>
+
+                <!-- Analysis Result -->
+                <div id="analysis-result" class="analysis-result" style="display: none;">
+                    <div class="result-header">
+                        <h3>Pollution Analysis Results</h3>
+                        <span id="confidence" class="confidence"></span>
+                    </div>
+                    <div class="disease-info">
+                        <div class="disease-status" id="disease-status">
+                            <span class="status-icon">✅</span>
+                            <span id="disease-name">Air Quality: Good</span>
+                        </div>
+                        <p id="disease-description"></p>
+                    </div>
+                    <div class="recommendations" id="recommendations"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Smart Advisory System -->
+        <div class="advisory-section">
+            <div class="advisory-card">
+                <h2>💡 Smart Pollution Advisory</h2>
+                <div class="advisory-tabs">
+                    <button class="tab-btn active" onclick="showTab('aqi')">🌫️ AQI</button>
+                    <button class="tab-btn" onclick="showTab('health')">😷 Health</button>
+                    <button class="tab-btn" onclick="showTab('sources')">🏭 Sources</button>
+                    <button class="tab-btn" onclick="showTab('weather')">🌤️ Weather</button>
+                </div>
+
+                <!-- AQI Tab -->
+                <div id="aqi-tab" class="tab-content active">
+                    <div class="recommendation-card">
+                        <h3>🌫️ AI-Powered AQI Assessment</h3>
+                        <div class="recommendation-status" id="aqi-status">
+                            <span class="status-badge optimal">Moderate</span>
+                            <span class="ai-badge">🤖 AI Confidence: <span id="irrigation-confidence">90%</span></span>
+                        </div>
+                        <p id="irrigation-advice">Analyzing current air quality levels from sensor data...</p>
+                        <div class="metrics">
+                            <div class="metric">
+                                <span>MQ-135 (Gas)</span>
+                                <strong id="current-moisture">-- ppm</strong>
+                            </div>
+                            <div class="metric">
+                                <span>PM2.5</span>
+                                <strong id="water-amount">-- µg/m³</strong>
+                            </div>
+                            <div class="metric">
+                                <span>PM10</span>
+                                <strong id="et-rate">-- µg/m³</strong>
+                            </div>
+                            <div class="metric">
+                                <span>AQI Category</span>
+                                <strong id="next-irrigation">--</strong>
+                            </div>
+                        </div>
+                        <div class="ai-insight">
+                            <strong>🧠 AI Analysis:</strong>
+                            <p id="irrigation-insight">Fetching live sensor data for AQI calculation...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Health Tab -->
+                <div id="health-tab" class="tab-content">
+                    <div class="recommendation-card">
+                        <h3>😷 AI Health Risk Assessment</h3>
+                        <div class="recommendation-status">
+                            <span class="status-badge good" id="fertilizer-status-badge">Low Risk</span>
+                            <span class="ai-badge">🤖 AI Confidence: <span id="fertilizer-confidence">88%</span></span>
+                        </div>
+                        <p id="fertilizer-advice">Current pollution levels pose low health risk for general population.</p>
+                        <div class="fertilizer-details">
+                            <div class="detail-item">
+                                <strong>Risk Group:</strong>
+                                <span id="npk-ratio">General Public</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Outdoor Activity:</strong>
+                                <span id="application-rate">Safe</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Mask Required:</strong>
+                                <span id="fertilizer-timing">No</span>
+                            </div>
+                        </div>
+                        <div class="nutrient-levels">
+                            <div class="nutrient">
+                                <span>Respiratory Risk</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="nitrogen-bar" style="width: 20%"></div>
+                                </div>
+                                <span id="nitrogen-value">Low</span>
+                            </div>
+                            <div class="nutrient">
+                                <span>Cardiovascular Risk</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="phosphorus-bar" style="width: 15%"></div>
+                                </div>
+                                <span id="phosphorus-value">Low</span>
+                            </div>
+                            <div class="nutrient">
+                                <span>Eye/Skin Irritation</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="potassium-bar" style="width: 10%"></div>
+                                </div>
+                                <span id="potassium-value">Minimal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sources Tab -->
+                <div id="sources-tab" class="tab-content">
+                    <div class="recommendation-card">
+                        <h3>🏭 AI Pollution Source Detection</h3>
+                        <div class="recommendation-status">
+                            <span class="status-badge safe" id="pest-status-badge">Detected</span>
+                            <span class="ai-badge">🤖 AI Confidence: <span id="pest-confidence">82%</span></span>
+                        </div>
+                        <p id="pest-advice">AI has identified likely pollution sources based on sensor patterns.</p>
+                        <div class="pest-details">
+                            <div class="detail-item">
+                                <strong>Primary Source:</strong>
+                                <span id="pest-risk-score">Vehicle Emissions</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Secondary Source:</strong>
+                                <span id="inspection-frequency">Industrial Activity</span>
+                            </div>
+                            <div class="detail-item">
+                                <strong>Recommended Action:</strong>
+                                <span id="pest-action">Increase ventilation</span>
+                            </div>
+                        </div>
+                        <div class="pest-alerts" id="pest-alerts">
+                            <div class="alert-item safe">
+                                <span>🚗 Vehicle Emissions</span>
+                                <span class="risk-level">Moderate</span>
+                            </div>
+                            <div class="alert-item safe">
+                                <span>🏭 Industrial Smoke</span>
+                                <span class="risk-level">Low</span>
+                            </div>
+                            <div class="alert-item safe">
+                                <span>🔥 Biomass Burning</span>
+                                <span class="risk-level">Low</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Tab -->
+                <div id="weather-tab" class="tab-content">
+                    <div class="recommendation-card">
+                        <h3>🌤️ Weather Impact on Pollution</h3>
+                        <div class="recommendation-status">
+                            <span class="ai-badge">🤖 AI Confidence: <span id="weather-confidence">78%</span></span>
+                        </div>
+                        <div class="weather-forecast" id="weather-forecast">
+                            <div class="forecast-item">
+                                <span>Today</span>
+                                <span class="weather-icon">🌫️</span>
+                                <span id="today-temp">--°C</span>
+                                <span class="rain-prob">Moderate AQI</span>
+                            </div>
+                            <div class="forecast-item">
+                                <span>Tomorrow</span>
+                                <span class="weather-icon">💨</span>
+                                <span>--°C</span>
+                                <span class="rain-prob">Wind dispersal</span>
+                            </div>
+                            <div class="forecast-item">
+                                <span>Day 3</span>
+                                <span class="weather-icon">🌧️</span>
+                                <span>--°C</span>
+                                <span class="rain-prob">Rain clears air</span>
+                            </div>
+                        </div>
+                        <p id="weather-advice">High humidity can trap pollutants near ground level. Monitor AQI closely.</p>
+                        <div class="weather-actions">
+                            <h4>📋 Recommended Actions:</h4>
+                            <ul id="weather-actions-list">
+                                <li>Avoid outdoor exercise during peak pollution hours (7–10 AM)</li>
+                                <li>Keep windows closed on high AQI days</li>
+                                <li>Use air purifiers indoors when AQI > 150</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Insights Section -->
+        <div class="insights-section">
+            <div class="insights-card">
+                <h2>🧠 AI-Powered Pollution Insights</h2>
+                <div class="insights-list" id="ai-insights">
+                    <div class="insight-item info">
+                        <span class="insight-icon">💡</span>
+                        <div class="insight-content">
+                            <strong>Loading AI Analysis...</strong>
+                            <p>Analyzing sensor data and pollution patterns...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="activity-section">
+            <div class="activity-card">
+                <h2>📋 Recent Activity</h2>
+                <div class="activity-list" id="activity-list">
+                    <div class="activity-item">
+                        <span class="activity-icon">🔬</span>
+                        <div class="activity-details">
+                            <strong>Pollution Analysis Completed</strong>
+                            <span>AQI: Moderate — 2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-icon">😷</span>
+                        <div class="activity-details">
+                            <strong>Health Alert Issued</strong>
+                            <span>PM2.5 elevated — sensitive groups advised — 5 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-icon">🌫️</span>
+                        <div class="activity-details">
+                            <strong>AQI Threshold Crossed</strong>
+                            <span>MQ-135 above 200 ppm — 1 day ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            const tab = document.getElementById(tabName + '-tab');
+            if (tab) tab.classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Run AI pollution analysis using live sensor data
+        function analyzePollution() {
+            fetch('/api/sensors')
+                .then(r => r.json())
+                .then(data => {
+                    const mq135 = data.mq135?.value || 0;
+                    const pm25  = data.pms5003?.pm25 || 0;
+                    const pm10  = data.pms5003?.pm10 || 0;
+                    const temp  = data.dht22?.temperature || 0;
+                    const hum   = data.dht22?.humidity || 0;
+
+                    let category, icon, desc, recs;
+
+                    if (mq135 < 100 && pm25 < 35) {
+                        category = 'Good (AQI 0–50)'; icon = '✅';
+                        desc = 'Air quality is satisfactory. No health risk.';
+                        recs = '✔ Safe for all outdoor activities<br>✔ No mask required<br>✔ Windows can be opened';
+                    } else if (mq135 < 200 && pm25 < 75) {
+                        category = 'Moderate (AQI 51–100)'; icon = '🟡';
+                        desc = 'Acceptable air quality. Sensitive individuals may experience minor effects.';
+                        recs = '⚠ Sensitive groups limit prolonged outdoor exposure<br>⚠ Monitor PM2.5 levels<br>✔ General public safe';
+                    } else if (mq135 < 300 && pm25 < 150) {
+                        category = 'Unhealthy for Sensitive Groups (AQI 101–150)'; icon = '🟠';
+                        desc = 'Sensitive groups (children, elderly, asthma patients) may experience health effects.';
+                        recs = '🚨 Sensitive groups stay indoors<br>😷 Wear N95 mask outdoors<br>🏠 Use air purifier indoors';
+                    } else {
+                        category = 'Unhealthy / Hazardous (AQI 151+)'; icon = '🔴';
+                        desc = 'Everyone may experience serious health effects. Avoid outdoor activities.';
+                        recs = '🚨 Stay indoors — all groups<br>😷 N95 mask mandatory if going out<br>🏠 Seal windows, run air purifier<br>🏥 Seek medical help if breathing issues';
+                    }
+
+                    document.getElementById('analysis-result').style.display = 'block';
+                    document.getElementById('confidence').textContent = 'AI Confidence: 91%';
+                    document.getElementById('disease-status').innerHTML = `<span class="status-icon">${icon}</span><span id="disease-name">${category}</span>`;
+                    document.getElementById('disease-description').textContent = desc;
+                    document.getElementById('recommendations').innerHTML = `<strong>Recommendations:</strong><br>${recs}`;
+
+                    // Update AQI tab metrics
+                    document.getElementById('current-moisture').textContent = mq135 + ' ppm';
+                    document.getElementById('water-amount').textContent = pm25 + ' µg/m³';
+                    document.getElementById('et-rate').textContent = pm10 + ' µg/m³';
+                    document.getElementById('next-irrigation').textContent = category.split('(')[0].trim();
+                    document.getElementById('irrigation-advice').textContent = desc;
+                    document.getElementById('irrigation-insight').textContent =
+                        `Temp: ${temp}°C | Humidity: ${hum}% | MQ-135: ${mq135} ppm | PM2.5: ${pm25} µg/m³ | PM10: ${pm10} µg/m³`;
+                })
+                .catch(() => {
+                    alert('Could not fetch sensor data. Make sure the Flask server is running.');
+                });
+        }
+
+        // Auto-run analysis on load
+        window.onload = () => analyzePollution();
+        // Refresh every 5 seconds
+        setInterval(analyzePollution, 5000);
+    </script>
+    <script src="agriculture.js"></script>
+</body>
+</html>

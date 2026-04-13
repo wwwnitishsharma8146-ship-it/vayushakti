@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot - PollutionWatch</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="chatbot.css">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <span class="logo-icon">🤖</span>
+                <span class="logo-text">PollutionWatch - AI Assistant</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="location-info">
+                <span class="location-icon">📍</span>
+                <span id="location-text">Detecting location...</span>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <span id="user-initial">U</span>
+                </div>
+                <div class="user-info">
+                    <span id="welcome-user">User</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="analytics.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span class="menu-text">Analytics</span>
+            </a>
+            <a href="agriculture.html" class="menu-item">
+                <span class="menu-icon">🌫️</span>
+                <span class="menu-text">Pollution AI</span>
+            </a>
+            <a href="chatbot.html" class="menu-item active">
+                <span class="menu-icon">🤖</span>
+                <span class="menu-text">AI Chatbot</span>
+            </a>
+            <a href="alerts.html" class="menu-item">
+                <span class="menu-icon">🔔</span>
+                <span class="menu-text">Alerts</span>
+            </a>
+            <a href="history.html" class="menu-item">
+                <span class="menu-icon">📜</span>
+                <span class="menu-text">History</span>
+            </a>
+            <a href="settings.html" class="menu-item">
+                <span class="menu-icon">⚙️</span>
+                <span class="menu-text">Settings</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <a href="/" class="menu-item">
+                <span class="menu-icon">🏠</span>
+                <span class="menu-text">Home</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>🤖 AI Pollution Assistant</h1>
+                <p>Ask me anything about air quality, pollution levels, health risks, or environmental data</p>
+                <div class="language-banner">
+                    <span class="lang-icon">🌍</span>
+                    <span class="lang-text">Speak in your language: English | हिंदी | ਪੰਜਾਬੀ</span>
+                </div>
+            </div>
+
+            <!-- Chat Container -->
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message bot-message">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <div class="message-text">
+                                Hello! नमस्ते! ਸਤ ਸ੍ਰੀ ਅਕਾਲ!<br><br>
+                                I'm your AI Pollution Assistant. I speak <strong>English, Hindi (हिंदी), and Punjabi (ਪੰਜਾਬੀ)</strong>!<br><br>
+                                I can help you with:
+                                <ul>
+                                    <li>🌫️ Air quality & AQI levels (वायु गुणवत्ता / ਹਵਾ ਗੁਣਵੱਤਾ)</li>
+                                    <li>😷 Health risks from pollution (स्वास्थ्य जोखिम / ਸਿਹਤ ਜੋਖਮ)</li>
+                                    <li>🏭 Pollution sources & causes (प्रदूषण स्रोत / ਪ੍ਰਦੂਸ਼ਣ ਸਰੋਤ)</li>
+                                    <li>🛡️ Protection tips (सुरक्षा सुझाव / ਸੁਰੱਖਿਆ ਸੁਝਾਅ)</li>
+                                    <li>📊 Sensor readings (सेंसर डेटा / ਸੈਂਸਰ ਡਾਟਾ)</li>
+                                    <li>🌱 Environmental improvement (पर्यावरण सुधार / ਵਾਤਾਵਰਣ ਸੁਧਾਰ)</li>
+                                </ul>
+                                <strong>Ask me in your language!</strong> / <strong>अपनी भाषा में पूछें!</strong> / <strong>ਆਪਣੀ ਭਾਸ਼ਾ ਵਿੱਚ ਪੁੱਛੋ!</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <button class="quick-btn" onclick="sendQuickMessage('What are my current sensor readings?')">
+                        📊 Current Sensors
+                    </button>
+                    <button class="quick-btn" onclick="sendQuickMessage('What is the air quality right now?')">
+                        🌫️ Air Quality
+                    </button>
+                    <button class="quick-btn" onclick="sendQuickMessage('What are the health risks from current pollution?')">
+                        😷 Health Risks
+                    </button>
+                    <button class="quick-btn" onclick="sendQuickMessage('How can I protect myself from pollution?')">
+                        🛡️ Protection Tips
+                    </button>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="chat-input-container">
+                    <textarea 
+                        id="chat-input" 
+                        placeholder="Ask me anything about pollution and air quality..."
+                        rows="1"
+                        onkeydown="handleKeyPress(event)"
+                    ></textarea>
+                    <button id="send-btn" onclick="sendMessage()">
+                        <span id="send-icon">📤</span>
+                    </button>
+                </div>
+
+                <!-- API Status -->
+                <div class="api-status" id="api-status">
+                    <span class="status-dot" id="status-dot"></span>
+                    <span id="status-text">Ready</span>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="info-card">
+                <h3>💡 Tips for Better Responses</h3>
+                <ul>
+                    <li>Ask about specific pollutants like PM2.5, CO2, or VOCs</li>
+                    <li>Mention your location for localized pollution advice</li>
+                    <li>Ask about health symptoms related to air quality</li>
+                    <li>Include sensor readings for accurate analysis</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script src="chatbot.js"></script>
+</body>
+</html>

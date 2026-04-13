@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Data Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #00ff00;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+        }
+        .label {
+            color: #ffff00;
+            font-weight: bold;
+        }
+        .value {
+            color: #00ffff;
+        }
+        .error {
+            color: #ff0000;
+        }
+        button {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #00cc00;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Dashboard Data Debugger</h1>
+    
+    <div class="section">
+        <h2>Test Controls</h2>
+        <button onclick="testAPI()">Test /api/sensors</button>
+        <button onclick="testHistory()">Test /api/history</button>
+        <button onclick="clearConsole()">Clear Console</button>
+    </div>
+
+    <div class="section">
+        <h2>API Response: /api/sensors</h2>
+        <pre id="api-response">Click "Test /api/sensors" button above</pre>
+    </div>
+
+    <div class="section">
+        <h2>Parsed Values</h2>
+        <div id="parsed-values">No data yet</div>
+    </div>
+
+    <div class="section">
+        <h2>Quick Stats Test</h2>
+        <div style="background: #2a2a2a; padding: 10px; margin: 10px 0;">
+            <div>💨 Air Quality: <span id="test-air" class="value">--</span></div>
+            <div>🌡️ Temperature: <span id="test-temp" class="value">--°C</span></div>
+            <div>💧 Water Level: <span id="test-water" class="value">--%</span></div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Console Log</h2>
+        <pre id="console-log" style="max-height: 300px; overflow-y: auto;"></pre>
+    </div>
+
+    <script>
+        let logBuffer = [];
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#ff0000' : type === 'success' ? '#00ff00' : '#00ffff';
+            logBuffer.push(`<span style="color: ${color}">[${timestamp}] ${message}</span>`);
+            document.getElementById('console-log').innerHTML = logBuffer.join('\n');
+            console.log(message);
+        }
+
+        function clearConsole() {
+            logBuffer = [];
+            document.getElementById('console-log').innerHTML = '';
+        }
+
+        async function testAPI() {
+            log('Fetching /api/sensors...');
+            try {
+                const response = await fetch('/api/sensors');
+                log(`Response status: ${response.status}`, response.ok ? 'success' : 'error');
+                
+                const data = await response.json();
+                log('Data received!', 'success');
+                
+                // Display raw response
+                document.getElementById('api-response').textContent = JSON.stringify(data, null, 2);
+                
+                // Parse values
+                parseAndDisplay(data);
+                
+            } catch (error) {
+                log(`Error: ${error.message}`, 'error');
+                document.getElementById('api-response').textContent = `ERROR: ${error.message}`;
+            }
+        }
+
+        async function testHistory() {
+            log('Fetching /api/history...');
+            try {
+                const response = await fetch('/api/history');
+                log(`Response status: ${response.status}`, response.ok ? 'success' : 'error');
+                
+                const data = await response.json();
+                log(`History records: ${data.length}`, 'success');
+                
+                if (data.length > 0) {
+                    const latest = data[data.length - 1];
+                    log('Latest record:', 'info');
+                    log(JSON.stringify(latest, null, 2), 'info');
+                }
+                
+            } catch (error) {
+                log(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        function parseAndDisplay(data) {
+            log('=== PARSING DATA ===');
+            
+            // Parse MQ135 (Air Quality)
+            const mq135Value = data.mq135?.value || data.mq135 || 0;
+            log(`mq135Value: ${mq135Value} (type: ${typeof mq135Value})`);
+            
+            // Parse Temperature
+            const tempValue = data.dht22?.temperature || data.temperature || 0;
+            log(`tempValue: ${tempValue} (type: ${typeof tempValue})`);
+            
+            // Parse Water Level
+            const fc28Value = data.fc28?.value || data.fc28 || 0;
+            log(`fc28Value: ${fc28Value} (type: ${typeof fc28Value})`);
+            
+            // Display parsed values
+            let html = '';
+            html += `<div><span class="label">Air Quality (mq135):</span> <span class="value">${mq135Value} ppm</span></div>`;
+            html += `<div><span class="label">Temperature:</span> <span class="value">${tempValue}°C</span></div>`;
+            html += `<div><span class="label">Humidity:</span> <span class="value">${data.dht22?.humidity || data.humidity || 0}%</span></div>`;
+            html += `<div><span class="label">Water Level (fc28):</span> <span class="value">${fc28Value}%</span></div>`;
+            html += `<div><span class="label">Soil Moisture (tds):</span> <span class="value">${data.tds?.value || data.tds || 0}%</span></div>`;
+            document.getElementById('parsed-values').innerHTML = html;
+            
+            // Update test quick stats
+            updateTestQuickStats(mq135Value, tempValue, fc28Value);
+        }
+
+        function updateTestQuickStats(mq135Value, tempValue, fc28Value) {
+            log('=== UPDATING TEST QUICK STATS ===');
+            
+            // Air Quality
+            const airQualityText = mq135Value < 100 ? 'Good' : mq135Value < 200 ? 'Moderate' : 'Poor';
+            log(`Air Quality: ${airQualityText} (value: ${mq135Value})`);
+            document.getElementById('test-air').textContent = airQualityText;
+            
+            // Temperature
+            log(`Checking temperature: ${tempValue}`);
+            log(`  - Is null? ${tempValue === null}`);
+            log(`  - Is undefined? ${tempValue === undefined}`);
+            log(`  - Is NaN? ${isNaN(tempValue)}`);
+            log(`  - Type: ${typeof tempValue}`);
+            
+            if (tempValue !== null && tempValue !== undefined && !isNaN(tempValue)) {
+                const tempText = tempValue.toFixed(1) + '°C';
+                log(`✓ Temperature valid: ${tempText}`, 'success');
+                document.getElementById('test-temp').textContent = tempText;
+            } else {
+                log(`✗ Temperature invalid, using fallback`, 'error');
+                document.getElementById('test-temp').textContent = '--°C';
+            }
+            
+            // Water Level
+            log(`Checking water level: ${fc28Value}`);
+            log(`  - Is null? ${fc28Value === null}`);
+            log(`  - Is undefined? ${fc28Value === undefined}`);
+            log(`  - Is NaN? ${isNaN(fc28Value)}`);
+            log(`  - Type: ${typeof fc28Value}`);
+            
+            if (fc28Value !== null && fc28Value !== undefined && !isNaN(fc28Value)) {
+                const waterText = fc28Value.toFixed(0) + '%';
+                log(`✓ Water level valid: ${waterText}`, 'success');
+                document.getElementById('test-water').textContent = waterText;
+            } else {
+                log(`✗ Water level invalid, using fallback`, 'error');
+                document.getElementById('test-water').textContent = '--%';
+            }
+            
+            log('=== TEST QUICK STATS UPDATE COMPLETE ===', 'success');
+        }
+
+        // Auto-test on load
+        window.onload = () => {
+            log('Page loaded, running auto-test in 1 second...');
+            setTimeout(testAPI, 1000);
+        };
+    </script>
+</body>
+</html>

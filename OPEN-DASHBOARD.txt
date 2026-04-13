@@ -1,0 +1,31 @@
+╔════════════════════════════════════════════════════════╗
+║                                                        ║
+║   🎯 OPEN YOUR DASHBOARD - JUST CLICK THIS LINK:      ║
+║                                                        ║
+║   http://localhost:5001/dashboard-clear.html          ║
+║                                                        ║
+║   This will automatically clear cache and show        ║
+║   your real Blynk sensor data!                        ║
+║                                                        ║
+╚════════════════════════════════════════════════════════╝
+
+✅ Your System Status:
+   - Blynk Bridge: Running ✓
+   - Server: Running on port 5001 ✓
+   - Data: Updating every 5 seconds ✓
+
+📊 Current Live Data:
+   - Temperature: 27°C
+   - Humidity: 50%
+   - Air Quality: 1 ppm (Good)
+   - Water Tank: 10%
+   - Soil Moisture: 100%
+
+🌐 Alternative URLs:
+   - Main Dashboard: http://localhost:5001/dashboard.html
+   - Test Page: http://localhost:5001/test-data.html
+   - Chatbot: http://localhost:5001/chatbot.html
+
+📍 Location: Landran, Punjab, India
+
+🎉 Everything is working perfectly!
